@@ -1,0 +1,27 @@
+<div class="signInFormContainer">
+  <form
+    class = "signInForm"
+    [formGroup]="checkoutForm"
+    (ngSubmit)="onSubmit(checkoutForm.value)"
+  >
+
+    <div class="inputContainer">
+      <div>
+        <label for="email">Email</label>
+      </div>
+      <input id="email" type="text" formControlName="email">
+    </div>
+
+    <div class="inputContainer">
+      <div>
+        <label for="password">Password</label>
+      </div>
+      <input id="password" type="password" formControlName="password">
+    </div>
+
+    <div class="inputContainer controls">
+      <button class="button" type="submit">Sign in</button>
+    </div>
+
+  </form>
+</div>
