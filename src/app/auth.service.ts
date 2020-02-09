@@ -1,31 +1,32 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import { Router } from '@angular/router';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+
+const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'accessToken';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  accessToken: string;
+
   refreshToken: string;
 
-  constructor(private router: Router) {
-    this.accessToken = undefined;
-    this.refreshToken =  'asdasda';
-  }
-
-  hasAccessToken() {
-    return Boolean(this.accessToken);
+  constructor(
+    @Inject(LOCAL_STORAGE) private storage: StorageService,
+    private router: Router
+  ) {
   }
 
   checkAuth() {
-    if (!this.hasAccessToken()) {
+    const accessToken = this.storage.get(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
+    if (!accessToken) {
       this.router.navigate(['/sign-in']);
     }
   }
 
   signIn(credentials) {
-    this.accessToken = credentials.email + credentials.password;
+    this.storage.set(LOCAL_STORAGE_ACCESS_TOKEN_KEY, credentials.email + credentials.password);
     this.router.navigate(['/']);
   }
 }
